@@ -20,3 +20,8 @@ to run main.py FAST API REST API use
  uvicorn app.main:app --reload
 use this to access swagger in whatever nav while running hte app:
  http://localhost:8000/docs
+
+
+TO EXPLORE DB
+sqlite3 test.db
+SELECT * FROM departments;
