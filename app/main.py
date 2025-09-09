@@ -3,7 +3,9 @@ import pandas as pd
 from sqlalchemy import create_engine, text
 from sqlalchemy.orm import Session
 from app.db import SessionLocal, engine, Base
-from app.models.department import Department
+from app.models.departments import Department
+from app.models.jobs import Job
+from app.models.hired_employees import HiredEmployee
 import app.constants as constants
 
 app = FastAPI(
@@ -37,33 +39,57 @@ def db_hello():
         message = result.scalar()
     return {"message": message}
 
-department_column_names = [col.name for col in Department.__table__.columns]
-@app.post("/upload/departments", summary="Upload departments CSV from disk")
-async def upload_departments(
-    db: Session = Depends(get_db),
-    batch_size: int = Query(1000, gt=0, le=1000, description="Number of rows per transaction")
+def upload_table_csv(
+    model,
+    csv_file_path,
+    db: Session,
+    batch_size: int
 ):
+    column_names = [col.name for col in model.__table__.columns]
     try:
-        df = pd.read_csv(constants.DEPARTMENTS_CSV_FILE, header=None, names=department_column_names)
+        df = pd.read_csv(csv_file_path, header=None, names=column_names)
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error reading CSV: {e}")
     total_inserted = 0
     try:
         for start in range(0, len(df), batch_size):
             chunk = df.iloc[start:start + batch_size]
-            departments = [Department(**row.to_dict()) for _, row in chunk.iterrows()]
-            db.bulk_save_objects(departments)
+            objects = [model(**row.to_dict()) for _, row in chunk.iterrows()]
+            db.bulk_save_objects(objects)
             db.commit()
-            total_inserted += len(departments)
+            total_inserted += len(objects)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
     return {"inserted": total_inserted, "batch_size": batch_size}
 
-@app.post("/reset-db", summary="Reset the departments table")
+@app.post("/upload/departments", summary="Upload departments CSV from disk")
+async def upload_departments(
+    db: Session = Depends(get_db),
+    batch_size: int = Query(1000, gt=0, le=1000)
+):
+    return upload_table_csv(Department, constants.DEPARTMENTS_CSV_FILE, db, batch_size)
+
+@app.post("/upload/jobs", summary="Upload jobs CSV from disk")
+async def upload_jobs(
+    db: Session = Depends(get_db),
+    batch_size: int = Query(1000, gt=0, le=1000)
+):
+    return upload_table_csv(Job, constants.JOBS_CSV_FILE, db, batch_size)
+
+@app.post("/upload/employees", summary="Upload employees CSV from disk")
+async def upload_employees(
+    db: Session = Depends(get_db),
+    batch_size: int = Query(1000, gt=0, le=1000)
+):
+    return upload_table_csv(HiredEmployee, constants.HIRED_EMPLOYEES_CSV_FILE, db, batch_size)
+
+@app.post("/reset-db", summary="Reset all tables")
 def reset_db(db: Session = Depends(get_db)):
+    models = [Department, Job, HiredEmployee]
     try:
-        Department.__table__.drop(engine)
-        Department.__table__.create(engine)
-        return {"message": "Departments table has been reset."}
+        for model in models:
+            model.__table__.drop(engine)
+            model.__table__.create(engine)
+        return {"message": "All tables have been reset."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error resetting DB: {e}")
