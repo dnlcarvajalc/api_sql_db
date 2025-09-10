@@ -5,6 +5,7 @@ from app.models.departments import Department
 from app.models.jobs import Job
 from app.models.employees import HiredEmployee
 from app.routes.upload import router as upload_router
+from app.routes.metrics import router as metric_router
 import app.constants as constants
 
 app = FastAPI(
@@ -33,6 +34,7 @@ def db_hello():
     return {"message": message}
 
 app.include_router(upload_router)
+app.include_router(metric_router)
 
 @app.post("/reset-db", summary="Reset all tables")
 def reset_db():
