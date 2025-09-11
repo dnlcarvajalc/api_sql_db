@@ -7,8 +7,10 @@ configure the data structure and create the ignore of data folder in gitignore
 TO DO LIST
 
 - Section 1: API
+Create post to make the tables
 
 - Section 2: SQL
+Create metrics to see stats
 
 - Bonus track
 
