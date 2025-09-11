@@ -6,10 +6,14 @@ from app.db import get_db
 
 router = APIRouter()
 
-@router.get("/metrics/hired-employees", summary="Employees hired per job and department by quarter")
+
+@router.get(
+    "/metrics/hired-employees",
+    summary="Employees hired per job and department by quarter",
+)
 def hired_employees_by_quarter(
     year: int = Query(2021, description="Year to filter hires"),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     sql_path = Path("app/sql/employees_hired_job.sql")
     try:
@@ -27,15 +31,18 @@ def hired_employees_by_quarter(
             "Q1": row[2],
             "Q2": row[3],
             "Q3": row[4],
-            "Q4": row[5]
+            "Q4": row[5],
         }
         for row in result
     ]
 
-@router.get("/metrics/departments-above-mean", summary="Departments hiring above mean in a year")
+
+@router.get(
+    "/metrics/departments-above-mean", summary="Departments hiring above mean in a year"
+)
 def departments_above_mean(
     year: int = Query(2021, description="Year to filter hires"),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     sql_path = Path("app/sql/departments_above_mean.sql")
     try:
@@ -50,7 +57,7 @@ def departments_above_mean(
         {
             "id": row[0],
             "department": row[1],
-            "hired": row[2]
+            "hired": row[2],
         }
         for row in result
     ]
