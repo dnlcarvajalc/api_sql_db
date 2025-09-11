@@ -26,7 +26,7 @@ clean:
 	rm -rf $(VENV) .pytest_cache __pycache__ *.pyc *.pyo
 
 test:
-	$(PYTHON) -m unittest discover -s tests
+	$(PYTHON) -m pytest --cov=app --cov-report=term-missing tests
 
 run:
 	@fuser -k 8000/tcp || true
