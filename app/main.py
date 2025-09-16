@@ -21,23 +21,6 @@ engine = create_engine(
 Base.metadata.create_all(bind=engine)
 
 
-@app.get("/", summary="Root Endpoint", response_description="Welcome message")
-def read_root():
-    return {"message": "Welcome to the Database Migration API!"}
-
-
-@app.get(
-    "/db-hello",
-    summary="Database Hello",
-    response_description="Database connection test message",
-)
-def db_hello():
-    with engine.connect() as connection:
-        result = connection.execute(text("SELECT 'Hello from the DB!'"))
-        message = result.scalar()
-    return {"message": message}
-
-
 app.include_router(upload_router)
 app.include_router(metric_router)
 

@@ -7,12 +7,15 @@ configure the data structure and create the ignore of data folder in gitignore
 TO DO LIST
 
 - Section 1: API
-Create post to make the tables
+Created a function to post every table
+created a function to erase data in tables in aim to test
+
 
 - Section 2: SQL
 Create metrics to see stats
 
 - Bonus track
+create test for all functions
 
 1. Create the environtment with
  'python -m venv venv'
@@ -27,3 +30,8 @@ use this to access swagger in whatever nav while running hte app:
 TO EXPLORE DB
 sqlite3 test.db
 SELECT * FROM departments;
+
+HOW TO RUN DOCKER
+
+docker build -t fastapi-app .
+docker run -p 8000:8000 fastapi-app
