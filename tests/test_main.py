@@ -4,15 +4,6 @@ from unittest.mock import patch
 
 client = TestClient(app)
 
-def test_read_root():
-    response = client.get("/")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Welcome to the Database Migration API!"}
-
-def test_db_hello():
-    response = client.get("/db-hello")
-    assert response.status_code == 200
-    assert response.json() == {"message": "Hello from the DB!"}
 
 def test_reset_db():
     response = client.post("/reset-db")

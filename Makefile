@@ -6,7 +6,7 @@ LINTER=$(VENV_DIR)/bin/flake8
 
 .PHONY: all
 all: env activate lint format clean test
-#all: env activate lint format clean test run
+server: env activate lint format clean test run
 
 env:
 	@test -d $(VENV_DIR) || python3 -m venv $(VENV_DIR)
@@ -31,5 +31,3 @@ test:
 run:
 	@fuser -k 8000/tcp || true
 	$(UVICORN) app.main:app --reload
-
-server: env lint test run
