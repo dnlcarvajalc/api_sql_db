@@ -28,7 +28,6 @@ jobs:
       - name: Commit and push Terraform lock file
         continue-on-error: true
         run: |
-          cd ..
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add terraform/terraform.tfstate
