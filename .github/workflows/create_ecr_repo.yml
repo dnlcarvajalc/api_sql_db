@@ -1,10 +1,10 @@
-name: Terraform Destroy
+name: Terraform ECR
 
 on:
   workflow_dispatch:
 
 jobs:
-  terraform-destroy:
+  terraform-ecr:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -13,7 +13,7 @@ jobs:
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.6
-      - name: Terraform Destroy
+      - name: Terraform Apply (ECR only)
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -21,11 +21,10 @@ jobs:
         run: |
           cd terraform
           terraform init
-          terraform destroy -auto-approve -var="aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}"
+          terraform apply -auto-approve -target=aws_ecr_repository.globant_api -var="aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}"
       - name: Commit and push Terraform lock file
         continue-on-error: true
         run: |
-          cd ..
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
           git add terraform/.terraform.lock.hcl
