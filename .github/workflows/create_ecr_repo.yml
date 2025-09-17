@@ -3,6 +3,9 @@ name: Terraform ECR
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   terraform-ecr:
     runs-on: ubuntu-latest
