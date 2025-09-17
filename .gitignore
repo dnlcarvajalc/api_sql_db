@@ -208,3 +208,6 @@ __marimo__/
 
 data
 globant_coding_challenge.db
+
+terraform/.terraform
+terraform/.terraform.lock.hcl
