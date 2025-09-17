@@ -12,6 +12,10 @@ resource "aws_ecr_repository" "globant_api" {
   }
 }
 
+data "aws_ecr_repository" "globant_api" {
+  name = "globant-api"
+}
+
 variable "aws_region" {
   description = "AWS region to deploy resources"
   default     = "us-east-1"
@@ -29,7 +33,7 @@ resource "aws_apprunner_service" "globant_api" {
       access_role_arn = "arn:aws:iam::${var.aws_account_id}:role/globant-project"
     }
     image_repository {
-      image_identifier      = "${aws_ecr_repository.globant_api.repository_url}:latest"
+      image_identifier      = "${data.aws_ecr_repository.globant_api.repository_url}:latest"
       image_repository_type = "ECR"
       image_configuration {
         port = "8000"
