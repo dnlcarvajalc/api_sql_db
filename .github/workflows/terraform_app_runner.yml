@@ -24,7 +24,12 @@ jobs:
         run: |
           cd terraform
           terraform init
-          terraform apply -auto-approve -target=aws_apprunner_service.globant_api -var="aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}"
+          terraform apply -auto-approve \
+            -target=aws_apprunner_service.globant_api \
+            -target=aws_iam_role.globant_project_apprunner_ecr_access \
+            -target=aws_iam_role_policy_attachment.ecr_full_access \
+            -target=aws_iam_role_policy_attachment.apprunner_full_access \
+            -var="aws_account_id=${{ secrets.AWS_ACCOUNT_ID }}"
       - name: Commit and push Terraform lock file
         continue-on-error: true
         run: |
