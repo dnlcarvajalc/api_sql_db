@@ -3,6 +3,9 @@ name: Terraform Destroy
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   terraform-destroy:
     runs-on: ubuntu-latest
