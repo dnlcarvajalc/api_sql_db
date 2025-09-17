@@ -17,6 +17,11 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type        = string
+}
+
 resource "aws_apprunner_service" "globant_api" {
   service_name = "globant-api"
   source_configuration {
