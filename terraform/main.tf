@@ -81,11 +81,11 @@ resource "aws_iam_role_policy" "globant_project_apprunner_ecr_access_policy" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecr_full_access" {
-  role       = aws_iam_role.globant_project_apprunner_ecr_access.name
+  role       = aws_iam_role.globant_project_apprunner_ecr_access.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "apprunner_full_access" {
-  role       = aws_iam_role.globant_project_apprunner_ecr_access.name
+  role       = aws_iam_role.globant_project_apprunner_ecr_access.id
   policy_arn = "arn:aws:iam::aws:policy/AWSAppRunnerFullAccess"
 }
