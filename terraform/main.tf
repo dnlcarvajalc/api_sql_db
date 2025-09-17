@@ -50,7 +50,10 @@ resource "aws_iam_role" "globant_project_apprunner_ecr_access" {
     Statement = [{
       Effect = "Allow"
       Principal = {
-        Service = "build.apprunner.amazonaws.com"
+        Service = [
+          "build.apprunner.amazonaws.com",
+          "tasks.apprunner.amazonaws.com"
+        ]
       }
       Action = "sts:AssumeRole"
     }]
