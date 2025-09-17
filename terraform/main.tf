@@ -21,7 +21,7 @@ resource "aws_apprunner_service" "globant_api" {
   service_name = "globant-api"
   source_configuration {
     authentication_configuration {
-      access_role_arn = aws_iam_role.ecr_access.arn
+      access_role_arn = "arn:aws:iam::${var.aws_account_id}:role/globant-project"
     }
     image_repository {
       image_identifier      = "${aws_ecr_repository.globant_api.repository_url}:latest"
@@ -32,20 +32,6 @@ resource "aws_apprunner_service" "globant_api" {
     }
     auto_deployments_enabled = true
   }
-}
-
-resource "aws_iam_role" "ecr_access" {
-  name = "AppRunnerECRAccessRole"
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [{
-      Effect = "Allow"
-      Principal = {
-        Service = "build.apprunner.amazonaws.com"
-      }
-      Action = "sts:AssumeRole"
-    }]
-  })
 }
 
 resource "aws_iam_role_policy" "ecr_access_policy" {
