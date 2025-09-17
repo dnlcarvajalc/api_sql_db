@@ -38,23 +38,3 @@ resource "aws_apprunner_service" "globant_api" {
     auto_deployments_enabled = true
   }
 }
-
-resource "aws_iam_role_policy" "ecr_access_policy" {
-  name = "AppRunnerECRAccessPolicy"
-  role = aws_iam_role.ecr_access.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
