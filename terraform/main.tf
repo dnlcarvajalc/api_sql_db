@@ -26,23 +26,6 @@ variable "aws_account_id" {
   type        = string
 }
 
-resource "aws_apprunner_service" "globant_api" {
-  service_name = "globant-api"
-  source_configuration {
-    authentication_configuration {
-      access_role_arn = aws_iam_role.globant_project_apprunner_ecr_access.arn
-    }
-    image_repository {
-      image_identifier      = "${data.aws_ecr_repository.globant_api.repository_url}:latest"
-      image_repository_type = "ECR"
-      image_configuration {
-        port = "8000"
-      }
-    }
-    auto_deployments_enabled = true
-  }
-}
-
 resource "aws_iam_role" "globant_project_apprunner_ecr_access" {
   name = "globant-project-apprunner-ecr-access"
   assume_role_policy = jsonencode({
@@ -60,26 +43,6 @@ resource "aws_iam_role" "globant_project_apprunner_ecr_access" {
   })
 }
 
-resource "aws_iam_role_policy" "globant_project_apprunner_ecr_access_policy" {
-  name = "GlobantProjectAppRunnerECRAccessPolicy"
-  role = aws_iam_role.globant_project_apprunner_ecr_access.id
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ecr:GetAuthorizationToken",
-          "ecr:BatchCheckLayerAvailability",
-          "ecr:GetDownloadUrlForLayer",
-          "ecr:BatchGetImage"
-        ]
-        Resource = "*"
-      }
-    ]
-  })
-}
-
 resource "aws_iam_role_policy_attachment" "ecr_full_access" {
   role       = aws_iam_role.globant_project_apprunner_ecr_access.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryFullAccess"
@@ -88,4 +51,21 @@ resource "aws_iam_role_policy_attachment" "ecr_full_access" {
 resource "aws_iam_role_policy_attachment" "apprunner_full_access" {
   role       = aws_iam_role.globant_project_apprunner_ecr_access.id
   policy_arn = "arn:aws:iam::aws:policy/AWSAppRunnerFullAccess"
+}
+
+resource "aws_apprunner_service" "globant_api" {
+  service_name = "globant-api"
+  source_configuration {
+    authentication_configuration {
+      access_role_arn = aws_iam_role.globant_project_apprunner_ecr_access.arn
+    }
+    image_repository {
+      image_identifier      = "${data.aws_ecr_repository.globant_api.repository_url}:latest"
+      image_repository_type = "ECR"
+      image_configuration {
+        port = "8000"
+      }
+    }
+    auto_deployments_enabled = true
+  }
 }
