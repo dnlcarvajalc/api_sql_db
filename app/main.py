@@ -21,6 +21,11 @@ engine = create_engine(
 Base.metadata.create_all(bind=engine)
 
 
+@app.get("/", summary="Root Endpoint", response_description="Welcome message")
+def read_root():
+    return {"message": "Welcome to my Globant’s Data Engineering Coding Challenge!"}
+
+
 app.include_router(upload_router)
 app.include_router(metric_router)
 
