@@ -126,3 +126,26 @@ It targets multiple resources including the App Runner service, IAM role, and po
 The **`terraform-destroy.yml`** workflow provides complete teardown of all AWS resources.  
 It runs `terraform destroy` without targeting specific resources to remove everything.  
 
+# Raw SQL for Analytics
+
+The most significant SQL usage occurs in the metrics endpoints, which execute external SQL files for complex analytical queries.  
+
+## Metrics Endpoints SQL Execution
+
+Both analytics endpoints follow the same pattern:
+
+1. **Load SQL query** from external file using `Path.read_text()`  
+
+2. **Execute parameterized query** using SQLAlchemy’s `text()` function  
+
+3. **Transform results to JSON format**  
+
+
+## External SQL Files
+
+The application uses two external SQL files:
+
+- `app/sql/employees_hired_job.sql` → Quarterly hiring metrics  
+
+- `app/sql/departments_above_mean.sql` → Departments hiring above average  
+
