@@ -1,5 +1,5 @@
 # Globant’s Data Engineering Coding Challenge
-For the solution of this coding challenge I implemente this system. It combines a FastAPI application with AWS infrastructure provisioned via Terraform, featuring automated deployment through GitHub Actions workflows.
+For the solution of this coding challenge I implemented this system. It combines a FastAPI application with AWS infrastructure provisioned via Terraform, featuring automated deployment through GitHub Actions workflows.
 
 ## API IMPLEMENTATION:
 The application provides HTTP endpoints for CSV data upload and metrics reporting, using SQLite for database operations.
