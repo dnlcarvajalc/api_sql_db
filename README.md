@@ -40,7 +40,7 @@ The `Makefile` defines tool paths using a virtual environment approach:
 
 ---
 
-# Main Targets
+# MakeFile Targets
 
 ## Development Workflow Targets
 - **`all`**: Executes the complete development workflow (`env`, `activate`, `lint`, `format`, `clean`, `test`) *(Makefile:8)*  
