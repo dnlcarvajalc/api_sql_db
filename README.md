@@ -43,28 +43,28 @@ The `Makefile` defines tool paths using a virtual environment approach:
 # MakeFile Targets
 
 ## Development Workflow Targets
-- **`all`**: Executes the complete development workflow (`env`, `activate`, `lint`, `format`, `clean`, `test`) *(Makefile:8)*  
-- **`server`**: Runs the full workflow and starts the development server *(Makefile:9)*  
+- **`all`**: Executes the complete development workflow (`env`, `activate`, `lint`, `format`, `clean`, `test`)
+- **`server`**: Runs the full workflow and starts the development server
 
 ---
 
 ## Environment Management
-- **`env`**: Creates virtual environment, upgrades pip, and installs dependencies from `requirements.txt` *(Makefile:11-14)*  
-- **`activate`**: Displays the command to activate the virtual environment *(Makefile:16-17)*  
+- **`env`**: Creates virtual environment, upgrades pip, and installs dependencies from `requirements.txt`
+- **`activate`**: Displays the command to activate the virtual environment
 
 
 ---
 
 ## Code Quality
-- **`lint`**: Runs `flake8` linter on the `app/` directory with `--exit-zero` flag *(Makefile:19-20)*  
-- **`format`**: Applies `black` code formatting to the `app/` directory *(Makefile:22-23)*  
-- **`clean`**: Removes Python cache files and pytest artifacts *(Makefile:25-26)*  
+- **`lint`**: Runs `flake8` linter on the `app/` directory with `--exit-zero` flag
+- **`format`**: Applies `black` code formatting to the `app/` directory
+- **`clean`**: Removes Python cache files and pytest artifacts
 
 ---
 
 ## Testing and Execution
-- **`test`**: Executes `pytest` with coverage reporting for the `app/` module *(Makefile:28-29)*  
-- **`run`**: Kills any process on port 8000 and starts the FastAPI server with reload *(Makefile:31-33)*  
+- **`test`**: Executes `pytest` with coverage reporting for the `app/` module
+- **`run`**: Kills any process on port 8000 and starts the FastAPI server with reload
 
 
 WARNING: Using make server will kill anything in port 8000
