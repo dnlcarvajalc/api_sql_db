@@ -1,5 +1,5 @@
 # Globant’s Data Engineering Coding Challenge
-For the solution of this coding challenge I implemented this system. It combines a FastAPI application with AWS infrastructure provisioned via Terraform, featuring automated deployment through GitHub Actions workflows.
+For the solution of this coding challenge I implemented this system which combines a FastAPI application with AWS infrastructure provisioned via Terraform, featuring automated deployment through GitHub Actions workflows.
 
 ## API IMPLEMENTATION:
 The application provides HTTP endpoints for CSV data upload and metrics reporting, using SQLite for database operations.
@@ -67,7 +67,7 @@ The `Makefile` defines tool paths using a virtual environment approach:
 - **`run`**: Kills any process on port 8000 and starts the FastAPI server with reload
 
 
-WARNING: Using make server will kill anything in port 8000
+WARNING: Using `make server` will kill anything in port 8000
 
 # Container Configuration
 The `Dockerfile` creates a lightweight container optimized for the FastAPI application runtime.  
